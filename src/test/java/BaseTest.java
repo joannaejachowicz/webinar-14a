@@ -27,6 +27,8 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
 
+
+
     }
     @AfterClass
     public void tearDown() {

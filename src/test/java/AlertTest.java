@@ -2,6 +2,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.FileReader;
@@ -12,32 +13,26 @@ import java.nio.file.Path;
 
 public class AlertTest extends BaseTest{
 
-
-
-
-
-
     @BeforeClass
     @Override
     public void setUp() {
         super.setUp();
         driver.get("https://the-internet.herokuapp.com/javascript_alerts");
     }
+      @Parameters({"content"})
+      @Test
+      public void jsPromptTest(String content) {
+    try {
 
-    @Test
 
-    public void jsPromptTest() {
-try {
-
-
-    String value = Files.readString(Path.of("/Users/joannajachowicz/IdeaProjects/webinar-14a/alert.txt"));
+//    String value = Files.readString(Path.of("/Users/joannajachowicz/IdeaProjects/webinar-14a/alert.txt"));
     driver.findElement(By.xpath("//*[@id=\"content\"]/div/ul/li[3]/button")).click();
     Alert alert = driver.switchTo().alert();
     Assert.assertEquals(alert.getText(), "I am a JS prompt");
-    alert.sendKeys(value);
+    alert.sendKeys(content);
     Thread.sleep(4000);
     alert.accept();
-    Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You entered: testuj.pl");
+    Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You entered: "+content);
 
 }
 

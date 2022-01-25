@@ -1,9 +1,12 @@
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 public class AlertsHomework extends BaseTest{
 
@@ -23,7 +26,7 @@ public class AlertsHomework extends BaseTest{
             alert.accept();
 
             driver.findElement(By.id("timerAlertButton")).click();
-            Thread.sleep(5000);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             Alert alertFirst = driver.switchTo().alert();
             Assert.assertEquals(alertFirst.getText(), "This alert appeared after 5 seconds");
             alertFirst.accept();

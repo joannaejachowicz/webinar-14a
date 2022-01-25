@@ -5,12 +5,7 @@ import org.testng.annotations.Test;
 import java.util.Set;
 
 public class WindowsHomework extends BaseTest {
-    @Test
-    public void multipleWindowsTests() {
-        driver.get("https://demoqa.com/browser-windows");
-        Assert.assertEquals(driver.findElement(By.cssSelector("#app > div > div > div.pattern-backgound.playgound-header > div")).getText(), "Browser Windows");
-        driver.findElement(By.id("windowButton")).click();
-
+    public String switchToSecondWindow(){
         String mainWindow = driver.getWindowHandle();
         Set<String> allWindowHandles = driver.getWindowHandles();
 
@@ -20,34 +15,31 @@ public class WindowsHomework extends BaseTest {
             }
 
         });
+        return mainWindow;
+    }
+
+    @Test
+    public void multipleWindowsTests() {
+        driver.get("https://demoqa.com/browser-windows");
+        Assert.assertEquals(driver.findElement(By.cssSelector("#app > div > div > div.pattern-backgound.playgound-header > div")).getText(), "Browser Windows");
+        driver.findElement(By.id("windowButton")).click();
+
+        String mainWindow = switchToSecondWindow();
+
         Assert.assertEquals(driver.findElement(By.id("sampleHeading")).getText(), "This is a sample page");
         driver.switchTo().window(mainWindow);
 
         driver.findElement(By.id("tabButton")).click();
 
-        String mainWindow1 = driver.getWindowHandle();
-        Set<String> allWindowHandles1 = driver.getWindowHandles();
+        String mainWindow1 = switchToSecondWindow();
 
-        allWindowHandles1.forEach(windowElement -> {
-            if (!windowElement.equals(mainWindow1)) {
-                driver.switchTo().window(windowElement);
-            }
-
-        });
         Assert.assertEquals(driver.findElement(By.id("sampleHeading")).getText(), "This is a sample page");
         driver.switchTo().window(mainWindow1);
 
         driver.findElement(By.id("messageWindowButton")).click();
 
-        String mainWindow2 = driver.getWindowHandle();
-        Set<String> allWindowHandles2 = driver.getWindowHandles();
+        String mainWindow2 = switchToSecondWindow();
 
-        allWindowHandles2.forEach(windowElement -> {
-            if (!windowElement.equals(mainWindow2)) {
-                driver.switchTo().window(windowElement);
-            }
-
-        });
         Assert.assertEquals(driver.findElement(By.cssSelector("body")).getText(), "Knowledge increases by sharing but not by saving. Please share this website with your friends and in your organization.");
         driver.switchTo().window(mainWindow2);
 
